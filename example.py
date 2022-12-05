@@ -14,11 +14,7 @@ evoked.plot(window_title="Traditional average")
 
 rwa = RWA()
 
-# Simple example using the whole epoch for averaging
-evoked2 = epochs.average(method=rwa.run)
-evoked.plot(window_title="Improved RWA - whole epoch")
-
-# For more robust results RWA should be calculated only for the time window of interest
+# For more robust results RWA should be used only for the time window of interest
 sfreq = epochs.info['sfreq']
 tmin, tmax = -0.2, 0.9
 baseline = round(- tmin * sfreq)
@@ -26,3 +22,7 @@ epoch_end = round(tmax * sfreq) + baseline
 evoked.data[..., baseline:epoch_end] = rwa.run(epochs.get_data()[..., baseline:epoch_end])
 
 evoked.plot(window_title="Improved RWA - time window of interest")
+
+# Simple example using the whole epoch for averaging
+evoked = epochs.average(method=rwa.run)
+evoked.plot(window_title="Improved RWA - whole epoch")
